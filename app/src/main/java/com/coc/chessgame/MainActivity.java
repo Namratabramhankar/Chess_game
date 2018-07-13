@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageButton[][] buttons = new ImageButton[8][8];
     private ImageButton selected ;
+    Location selectedLocation;
 
 
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+
+        generateBoard();
 
         buttons[0][0].setImageResource(R.drawable.rook3);
         buttons[0][0].setTag(Integer.valueOf(R.drawable.rook3));
@@ -87,7 +90,92 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void generateBoard() {
+        setUpBoard();
+        for (int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                final int x = r, y = c;
 
+                ImageButton im = buttons[x][y];
+                im.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (selected != null) {
+                            if (buttons[x][y] == selected) {
+                                buttons[x][y].setBackgroundColor(buttons[x][y]
+                                        .isWhite() ? Color.WHITE : Color.BLACK);
+                                selected = null;
+                                return;
+                            }else{
+
+                                Location src = selectedLocation;
+                                Location dest = new Location(x, y);
+                                try{
+                                    boolean inCheck = game.move(src,dest);
+                                    if (inCheck){
+                                        renderBoard();
+                                    }
+                                }catch (Exception e){
+                                    StringBuilder sb = new StringBuilder();
+                                    sb.append(e.getPiece() + " cannot move to "
+                                            + e.getLocation() + ".");
+                                    sb.append('\n');
+                                }finally {
+                                        selected.setBackgroundColor(selected
+                                                .isWhite() ? Color.WHITE
+                                                : Color.GRAY);
+                                        selected = null;
+                                        selectedLocation = null;
+                                }
+
+                                }
+
+                            }else{
+                            Location loc = new Location(x, y);
+                            if (game.getGrid().get(loc) == null) {
+                                return;
+                            }
+
+                            Piece p = game.getGrid().get(loc);
+                            if (p.isWhite() != game.isWhitesTurn()) {
+                                Toast.makeText(
+                                        getBaseContext(),
+                                        "You can only move your own pieces.\nIt's "
+                                                + (game.isWhitesTurn() ? "white's"
+                                                : "black's") + " turn.",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            // select this piece
+                            buttons[x][y].
+                            // Globals.getInstance().toggleSelected(squares[x][y]);
+                            selected = squares[x][y];
+                            selectedLocation = new Location(x, y);
+                            squares[x][y].setBackgroundColor(Color.RED);
+                        }
+                        }
+                });
+            }
+        }
+    }
+
+    private void renderBoard(){
+    }
+
+    private void setUpBoard(){
+        for (int x = 7; x >= 0; x--) {
+            for (int y = 0; y < 8; y++) {
+                final int r = x;
+                final int c = y;
+                String location;
+                location = "" + ((char) (c + 97)) + "" + (r + 1);
+                buttons[r][c] = new ImageButton(this, (((r + c) % 2) != 0) ? true
+                        : false, location);
+
+            }
+        }
+    }
 
 
     @Override
