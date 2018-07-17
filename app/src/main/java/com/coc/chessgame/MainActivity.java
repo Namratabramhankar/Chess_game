@@ -15,22 +15,15 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-
-
-
     private ImageButton[][] buttons = new ImageButton[8][8];
-    private ImageButton selected ;
+    private ImageButton selected = null;
     Location selectedLocation;
-
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         for (int i = 0; i < 8; ++i) {
@@ -44,43 +37,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        Button buttonReset = findViewById(R.id.button_reset);
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        for (int i = 0; i < 8; ++i) {
+            for (int j = 0; j < 8; ++j) {
+                if (((i + j) % 2) == 0) {
+                    buttons[i][j].setBackgroundResource(R.drawable.black);
+                } else {
+                    buttons[i][j].setBackgroundResource(R.drawable.white);
+                }
+                //selected = null;
             }
-        });
+        }
 
-        generateBoard();
 
         buttons[0][0].setImageResource(R.drawable.rook3);
         buttons[0][0].setTag(Integer.valueOf(R.drawable.rook3));
         buttons[0][7].setImageResource(R.drawable.rook3);
+        buttons[0][7].setTag(Integer.valueOf(R.drawable.rook3));
         buttons[0][1].setImageResource(R.drawable.night2);
-        buttons[0][1].setTag(Integer.valueOf(R.drawable.night2))
+        buttons[0][1].setTag(Integer.valueOf(R.drawable.night2));
         buttons[0][6].setImageResource(R.drawable.night2);
+        buttons[0][6].setTag(Integer.valueOf(R.drawable.night2));
+
         buttons[0][2].setImageResource(R.drawable.bishop2);
-        buttons[0][2].setTag(Integer.valueOf(R.drawable.bishop2))
+        buttons[0][2].setTag(Integer.valueOf(R.drawable.bishop2));
         buttons[0][5].setImageResource(R.drawable.bishop2);
+        buttons[0][5].setTag(Integer.valueOf(R.drawable.bishop2));
+
         buttons[0][3].setImageResource(R.drawable.queen2);
-        buttons[0][3].setTag(Integer.valueOf(R.drawable.queen2))
+        buttons[0][3].setTag(Integer.valueOf(R.drawable.queen2));
         buttons[0][4].setImageResource(R.drawable.king2);
-        buttons[0][4].setTag(Integer.valueOf(R.drawable.king2))
+        buttons[0][4].setTag(Integer.valueOf(R.drawable.king2));
 
         buttons[7][0].setImageResource(R.drawable.rook1);
         buttons[7][0].setTag(Integer.valueOf(R.drawable.rook1));
         buttons[7][7].setImageResource(R.drawable.rook1);
+        buttons[7][7].setTag(Integer.valueOf(R.drawable.rook1));
         buttons[7][1].setImageResource(R.drawable.night1);
-        buttons[7][0].setTag(Integer.valueOf(R.drawable.rook1));
+        buttons[7][1].setTag(Integer.valueOf(R.drawable.night1));
         buttons[7][6].setImageResource(R.drawable.night1);
+        buttons[7][6].setTag(Integer.valueOf(R.drawable.night1));
+
         buttons[7][2].setImageResource(R.drawable.bishop1);
-        buttons[7][0].setTag(Integer.valueOf(R.drawable.rook1));
+        buttons[7][2].setTag(Integer.valueOf(R.drawable.bishop1));
         buttons[7][5].setImageResource(R.drawable.bishop1);
+        buttons[7][5].setTag(Integer.valueOf(R.drawable.bishop1));
+
         buttons[7][3].setImageResource(R.drawable.queen1);
-        buttons[7][0].setTag(Integer.valueOf(R.drawable.rook1));
+        buttons[7][3].setTag(Integer.valueOf(R.drawable.queen1));
+
         buttons[7][4].setImageResource(R.drawable.king1);
-        buttons[7][0].setTag(Integer.valueOf(R.drawable.rook1));
+        buttons[7][4].setTag(Integer.valueOf(R.drawable.king1));
 
         for (int i = 0; i < 8; ++i) {
             buttons[1][i].setImageResource(R.drawable.pawn2);
@@ -90,118 +96,103 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void generateBoard() {
-        setUpBoard();
-        for (int r = 0; r < 8; r++){
-            for(int c = 0; c < 8; c++){
-                final int x = r, y = c;
-
-                ImageButton im = buttons[x][y];
-                im.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (selected != null) {
-                            if (buttons[x][y] == selected) {
-                                buttons[x][y].setBackgroundColor(buttons[x][y]
-                                        .isWhite() ? Color.WHITE : Color.BLACK);
-                                selected = null;
-                                return;
-                            }else{
-
-                                Location src = selectedLocation;
-                                Location dest = new Location(x, y);
-                                try{
-                                    boolean inCheck = game.move(src,dest);
-                                    if (inCheck){
-                                        renderBoard();
-                                    }
-                                }catch (Exception e){
-                                    StringBuilder sb = new StringBuilder();
-                                    sb.append(e.getPiece() + " cannot move to "
-                                            + e.getLocation() + ".");
-                                    sb.append('\n');
-                                }finally {
-                                        selected.setBackgroundColor(selected
-                                                .isWhite() ? Color.WHITE
-                                                : Color.GRAY);
-                                        selected = null;
-                                        selectedLocation = null;
-                                }
-
-                                }
-
-                            }else{
-                            Location loc = new Location(x, y);
-                            if (game.getGrid().get(loc) == null) {
-                                return;
-                            }
-
-                            Piece p = game.getGrid().get(loc);
-                            if (p.isWhite() != game.isWhitesTurn()) {
-                                Toast.makeText(
-                                        getBaseContext(),
-                                        "You can only move your own pieces.\nIt's "
-                                                + (game.isWhitesTurn() ? "white's"
-                                                : "black's") + " turn.",
-                                        Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            // select this piece
-                            buttons[x][y].
-                            // Globals.getInstance().toggleSelected(squares[x][y]);
-                            selected = squares[x][y];
-                            selectedLocation = new Location(x, y);
-                            squares[x][y].setBackgroundColor(Color.RED);
-                        }
-                        }
-                });
-            }
-        }
-    }
-
-    private void renderBoard(){
-    }
-
-    private void setUpBoard(){
-        for (int x = 7; x >= 0; x--) {
-            for (int y = 0; y < 8; y++) {
-                final int r = x;
-                final int c = y;
-                String location;
-                location = "" + ((char) (c + 97)) + "" + (r + 1);
-                buttons[r][c] = new ImageButton(this, (((r + c) % 2) != 0) ? true
-                        : false, location);
-
-            }
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
-                    int draw = (Integer) v.getTag();
-                    switch (draw){
-                        case R.drawable.bishop1: if (draw == R.drawable.bishop1){
-                                                    
-                        }
-                    }
-                    if (selected != null)
-                    for (int i = 0; i < 8; ++i){
-                        for (int j = 0; j < 8; ++j){
-                            if (((i + j) % 2 ) == 0){
-                                buttons[i][j].setBackgroundResource(R.drawable.black);
-                            }else{
-                                buttons[i][j].setBackgroundResource(R.drawable.white);
-                            }
-                            selected = null;
-                        }
+
+        Log.v("1st", "1");
+
+        if (selected == null) {
+            int draw = (Integer) v.getId();
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (buttons[i][j].getId() == draw) {
+                        selected = buttons[i][j];
+                        break;
                     }
                 }
+                if (selected != null) {
+                    break;
+                }
+            }
+        } else {
+            ImageButton next = null;
+            int viewid = v.getId();
+
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (buttons[i][j].getId() == viewid) {
+                        next = buttons[i][j];
+                        break;
+                    }
+                }
+                if (next != null) {
+                    break;
+                }
+            }
+
+            int tag = (Integer) selected.getTag();
+            Log.v("tag", Integer.valueOf(tag).toString());
+            switch (tag) {
+                case (R.drawable.rook1):
+                    next.setImageResource(R.drawable.rook1);
+                    next.setTag(Integer.valueOf(R.drawable.rook1));
+                    break;
+
+                case (R.drawable.rook3):
+                    next.setImageResource(R.drawable.rook3);
+                    next.setTag(Integer.valueOf(R.drawable.rook3));
+                    break;
+
+                case (R.drawable.bishop1):
+                    next.setImageResource(R.drawable.bishop1);
+                    next.setTag(Integer.valueOf(R.drawable.bishop1));
+                    break;
+
+                case (R.drawable.bishop2):
+                    next.setImageResource(R.drawable.bishop2);
+                    next.setTag(Integer.valueOf(R.drawable.bishop2));
+                    break;
+                case (R.drawable.king1):
+                    next.setImageResource(R.drawable.king1);
+                    next.setTag(Integer.valueOf(R.drawable.king1));
+                    break;
+                case (R.drawable.king2):
+                    next.setImageResource(R.drawable.king2);
+                    next.setTag(Integer.valueOf(R.drawable.king2));
+                    break;
+                case (R.drawable.queen1):
+                    next.setImageResource(R.drawable.queen1);
+                    next.setTag(Integer.valueOf(R.drawable.queen1));
+                    break;
+                case (R.drawable.queen2):
+                    next.setImageResource(R.drawable.queen2);
+                    next.setTag(Integer.valueOf(R.drawable.queen2));
+                    break;
+                case (R.drawable.night1):
+                    next.setImageResource(R.drawable.night1);
+                    next.setTag(Integer.valueOf(R.drawable.night1));
+                    break;
+                case (R.drawable.night2):
+                    next.setImageResource(R.drawable.night2);
+                    next.setTag(Integer.valueOf(R.drawable.night2));
+                    break;
+                case (R.drawable.pawn1):
+                    next.setImageResource(R.drawable.pawn1);
+                    next.setTag(Integer.valueOf(R.drawable.pawn1));
+                    break;
+                case (R.drawable.pawn2):
+                    next.setImageResource(R.drawable.pawn2);
+                    next.setTag(Integer.valueOf(R.drawable.pawn2));
+                    break;
+            }
+            selected.setImageDrawable(null);
+            selected.setTag(null);
+            selected = null;
 
 
-
-
+        }
     }
 
 
+}
