@@ -1,19 +1,20 @@
 package com.coc.chessgame;
 
-/*public class Rook {
-    ValidateRook()
-    {
-        x1,y1= button id 1;
-        x2,y2= button id 2;
-        if (x1=x2 || y1=y2)
-        {
-            setpiece();
-        }else
-        {
-            System.out.print(“Select correct position”);
+public class Rook extends MainActivity {
+
+
+    public void validateRook() {
+
+
+        if (src_row == target_row || src_col == target_col) {
+            buttons[target_row][target_col].setImageResource(R.drawable.rookb);
+        } else {
+            System.out.println("Select correct tile");
         }
 
     }
 
 
-}*/
+
+
+}

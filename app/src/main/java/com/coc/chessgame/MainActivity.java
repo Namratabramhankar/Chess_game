@@ -15,10 +15,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private ImageButton[][] buttons = new ImageButton[8][8];
-    private ImageButton selected = null;
-    private final static String brown = "#a17948";
-
+    public ImageButton[][] buttons = new ImageButton[8][8];
+    public ImageButton selected = null;
+    int src_row;
+    int src_col;
+    int target_row;
+    int target_col;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int j = 0; j < 8; j++) {
                     if (buttons[i][j].getId() == draw) {
                         selected = buttons[i][j];
+                        if (selected == buttons[i][j]){
+                            src_row = i;
+                            src_col = j;
+                            Log.v("source","exp");
+                        }else {
+                            break;
+                        }
+
                         break;
                     }
                 }
@@ -116,6 +126,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int j = 0; j < 8; j++) {
                     if (buttons[i][j].getId() == viewid) {
                         next = buttons[i][j];
+                        if (next == buttons[i][j]){
+                            target_row = i;
+                            target_col = j;
+                            Log.v("target","exp");
+                        } else{
+                            break;
+                        }
                         break;
                     }
                 }
@@ -128,48 +145,127 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.v("tag", Integer.valueOf(tag).toString());
             switch (tag) {
                 case (R.drawable.rookw):
-                    next.setImageResource(R.drawable.rookw);
-                    next.setTag(Integer.valueOf(R.drawable.rookw));
+                    //next.setImageResource(R.drawable.rookw);
+                    // next.setTag(Integer.valueOf(R.drawable.rookw));
+                    if (src_row == target_row || src_col == target_col) {
+                        next.setImageResource(R.drawable.rookw);
+                        next.setTag(Integer.valueOf(R.drawable.rookw));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
                     break;
 
                 case (R.drawable.rookb):
-                    next.setImageResource(R.drawable.rookb);
-                    next.setTag(Integer.valueOf(R.drawable.rookb));
+                    //next.setImageResource(R.drawable.rookb);
+                    //next.setTag(Integer.valueOf(R.drawable.rookb));
+                    if (src_row == target_row || src_col == target_col) {
+                        next.setImageResource(R.drawable.rookb);
+                        next.setTag(Integer.valueOf(R.drawable.rookb));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
                     break;
 
                 case (R.drawable.bishopw):
-                    next.setImageResource(R.drawable.bishopw);
-                    next.setTag(Integer.valueOf(R.drawable.bishopw));
+                    //next.setImageResource(R.drawable.bishopw);
+                    //next.setTag(Integer.valueOf(R.drawable.bishopw));
+                    if (Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) {
+                        next.setImageResource(R.drawable.bishopw);
+                        next.setTag(Integer.valueOf(R.drawable.bishopw));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
                     break;
 
                 case (R.drawable.bishopb):
-                    next.setImageResource(R.drawable.bishopb);
-                    next.setTag(Integer.valueOf(R.drawable.bishopb));
-                    break;
-                case (R.drawable.kingw):
-                    next.setImageResource(R.drawable.kingw);
-                    next.setTag(Integer.valueOf(R.drawable.kingw));
-                    break;
-                case (R.drawable.kingb):
-                    next.setImageResource(R.drawable.kingb);
-                    next.setTag(Integer.valueOf(R.drawable.kingb));
+                    //next.setImageResource(R.drawable.bishopb);
+                    //next.setTag(Integer.valueOf(R.drawable.bishopb));
+                    if (Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) {
+                        next.setImageResource(R.drawable.bishopb);
+                        next.setTag(Integer.valueOf(R.drawable.bishopb));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
+
                     break;
                 case (R.drawable.queenw):
-                    next.setImageResource(R.drawable.queenw);
-                    next.setTag(Integer.valueOf(R.drawable.queenw));
+                    //next.setImageResource(R.drawable.kingw);
+                    //next.setTag(Integer.valueOf(R.drawable.kingw));
+
+                    if ((Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) || ((src_col == target_col) || (src_row == target_row))) {
+                        next.setImageResource(R.drawable.queenw);
+                        next.setTag(Integer.valueOf(R.drawable.queenw));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
+
                     break;
+
                 case (R.drawable.queenb):
-                    next.setImageResource(R.drawable.queenb);
-                    next.setTag(Integer.valueOf(R.drawable.queenb));
+                    //next.setImageResource(R.drawable.kingb);
+                    //next.setTag(Integer.valueOf(R.drawable.kingb));
+
+                    if ((Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) || ((src_col == target_col) || (src_row == target_row))) {
+                        next.setImageResource(R.drawable.queenb);
+                        next.setTag(Integer.valueOf(R.drawable.queenb));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
+
                     break;
+                case (R.drawable.kingb):
+                    //next.setImageResource(R.drawable.kingb);
+                    //next.setTag(Integer.valueOf(R.drawable.kingb));
+                    //If ( (|x1-x2| =1 && |y1-y2|=1) || ( |x1-x2|=1 && y1=y2 ) || ( |y1-y2|=1 && x1=x2) )
+
+                    if ((Math.abs(src_row - target_row) ==1 && Math.abs(src_col - target_col)==1) ||
+                            (Math.abs(src_col - target_col)==1 && (src_row==target_row))||
+                            (Math.abs(src_row - target_row)  == 1 && (src_col==target_col))) {
+                        next.setImageResource(R.drawable.kingb);
+                        next.setTag(Integer.valueOf(R.drawable.kingb));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
+
+                    break;
+                case (R.drawable.kingw):
+                    //next.setImageResource(R.drawable.kingb);
+                    //next.setTag(Integer.valueOf(R.drawable.kingb));
+                    //If ( (|x1-x2| =1 && |y1-y2|=1) || ( |x1-x2|=1 && y1=y2 ) || ( |y1-y2|=1 && x1=x2) )
+
+                    if ((Math.abs(src_row - target_row) ==1 && Math.abs(src_col - target_col)==1) ||
+                            (Math.abs(src_col - target_col)==1 && (src_row==target_row))||
+                            (Math.abs(src_row - target_row)  == 1 && (src_col==target_col))) {
+                        next.setImageResource(R.drawable.kingw);
+                        next.setTag(Integer.valueOf(R.drawable.kingw));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
+
+                    break;
+
                 case (R.drawable.nightw):
-                    next.setImageResource(R.drawable.nightw);
-                    next.setTag(Integer.valueOf(R.drawable.nightw));
+                    //next.setImageResource(R.drawable.nightw);
+                    //next.setTag(Integer.valueOf(R.drawable.nightw));
+                    //If (|x1-x2|* |y1-y2|=2)
+                    if (Math.abs(src_row - target_row) * Math.abs(src_col - target_col) == 2) {
+                        next.setImageResource(R.drawable.nightw);
+                        next.setTag(Integer.valueOf(R.drawable.nightw));
+                    } else {
+                        System.out.println("Select correct tile");
+                    }
                     break;
                 case (R.drawable.nightb):
+
+                    //next.setImageResource(R.drawable.nightb);
+                   // next.setTag(Integer.valueOf(R.drawable.nightb));
+                    if (Math.abs(src_row - target_row) * Math.abs(src_col - target_col) == 2) {
                     next.setImageResource(R.drawable.nightb);
                     next.setTag(Integer.valueOf(R.drawable.nightb));
-                    break;
+                } else {
+                    System.out.println("Select correct tile");
+                }
+                break;
                 case (R.drawable.pawnw):
                     next.setImageResource(R.drawable.pawnw);
                     next.setTag(Integer.valueOf(R.drawable.pawnw));
@@ -179,11 +275,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     next.setTag(Integer.valueOf(R.drawable.pawnb));
                     break;
             }
+
             selected.setImageDrawable(null);
             selected.setTag(null);
             selected = null;
-
-
         }
     }
 }
