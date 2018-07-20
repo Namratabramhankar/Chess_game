@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (selected == null) {
             int draw = (Integer) v.getId();
+            Log.v("tag1", String.valueOf(draw));
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (buttons[i][j].getId() == draw) {
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             ImageButton next = null;
             int viewid = v.getId();
+
 
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -150,34 +152,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setImageResource(R.drawable.rookw);
                     // next.setTag(Integer.valueOf(R.drawable.rookw));
                     if (src_row == target_row || src_col == target_col) {
+                        if (isPLayerOneTurn == true){
+
                         next.setImageResource(R.drawable.rookw);
                         next.setTag(Integer.valueOf(R.drawable.rookw));
                         selected.setImageDrawable(null);
                         selected.setTag(null);
                         selected = null;
+                        isPLayerOneTurn = false;
+                        }else {
+                            System.out.println("Sorry white");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.rookw);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.rookw));
+                        }
+
                     } else {
 
                         buttons[src_row][src_col].setImageResource(R.drawable.rookw);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.rookw));
                         System.out.println("Select correct tile");
 
                     }
-                    checkTurn();
                     break;
 
                 case (R.drawable.rookb):
                     //next.setImageResource(R.drawable.rookb);
                     //next.setTag(Integer.valueOf(R.drawable.rookb));
                     if (src_row == target_row || src_col == target_col) {
-                        next.setImageResource(R.drawable.rookb);
-                        next.setTag(Integer.valueOf(R.drawable.rookb));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == false) {
+
+                            
+                            next.setImageResource(R.drawable.rookb);
+                            next.setTag(Integer.valueOf(R.drawable.rookb));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = true;
+                        }else {
+                            System.out.println("Sorry black");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.rookb);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.rookb));
+                        }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.rookb);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.rookb));
                         System.out.println("Select correct tile");
                     }
@@ -187,17 +210,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setImageResource(R.drawable.bishopw);
                     //next.setTag(Integer.valueOf(R.drawable.bishopw));
                     if (Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) {
-                        next.setImageResource(R.drawable.bishopw);
-                        next.setTag(Integer.valueOf(R.drawable.bishopw));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == true) {
+                            next.setImageResource(R.drawable.bishopw);
+                            next.setTag(Integer.valueOf(R.drawable.bishopw));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = false;
+                        }
+                        else {
+                            System.out.println("Sorry white");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.bishopw);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.bishopw));
+                        }
 
 
 
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.bishopw);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.bishopw));
                         System.out.println("Select correct tile");
                     }
@@ -207,14 +240,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setImageResource(R.drawable.bishopb);
                     //next.setTag(Integer.valueOf(R.drawable.bishopb));
                     if (Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) {
-                        next.setImageResource(R.drawable.bishopb);
-                        next.setTag(Integer.valueOf(R.drawable.bishopb));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == false) {
+                            next.setImageResource(R.drawable.bishopb);
+                            next.setTag(Integer.valueOf(R.drawable.bishopb));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = true;
+                        }
+                        else {
+                            System.out.println("Sorry black");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.bishopb);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.bishopb));
+                        }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.bishopb);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.bishopb));
                         System.out.println("Select correct tile");
                     }
@@ -225,14 +268,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setTag(Integer.valueOf(R.drawable.kingw));
 
                     if ((Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) || ((src_col == target_col) || (src_row == target_row))) {
-                        next.setImageResource(R.drawable.queenw);
-                        next.setTag(Integer.valueOf(R.drawable.queenw));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
-                    } else {
+                        if (isPLayerOneTurn == true) {
+                            next.setImageResource(R.drawable.queenw);
+                            next.setTag(Integer.valueOf(R.drawable.queenw));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = false;
+                        } else {
+                            System.out.println("Sorry white");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.queenw);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.queenw));
+                        }
+                    }
+                     else {
                         buttons[src_row][src_col].setImageResource(R.drawable.queenw);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.queenw));
                         System.out.println("Select correct tile");
                     }
@@ -244,14 +297,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setTag(Integer.valueOf(R.drawable.kingb));
 
                     if ((Math.abs(src_row - target_row) == Math.abs(src_col - target_col)) || ((src_col == target_col) || (src_row == target_row))) {
-                        next.setImageResource(R.drawable.queenb);
-                        next.setTag(Integer.valueOf(R.drawable.queenb));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == false) {
+
+                            next.setImageResource(R.drawable.queenb);
+                            next.setTag(Integer.valueOf(R.drawable.queenb));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = true;
+                        }
+                        else {
+                            System.out.println("Sorry black");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.queenb);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.queenb));
+                        }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.queenb);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.queenb));
                         System.out.println("Select correct tile");
                     }
@@ -265,18 +329,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if ((Math.abs(src_row - target_row) ==1 && Math.abs(src_col - target_col)==1) ||
                             (Math.abs(src_col - target_col)==1 && (src_row==target_row))||
                             (Math.abs(src_row - target_row)  == 1 && (src_col==target_col))) {
-                        next.setImageResource(R.drawable.kingb);
-                        next.setTag(Integer.valueOf(R.drawable.kingb));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == false) {
+
+                            next.setImageResource(R.drawable.kingb);
+                            next.setTag(Integer.valueOf(R.drawable.kingb));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = true;
+                        }
+                        else {
+                            System.out.println("Sorry black");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.kingb);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.kingb));
+                        }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.kingb);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.kingb));
                         System.out.println("Select correct tile");
                     }
-
                     break;
                 case (R.drawable.kingw):
                     //next.setImageResource(R.drawable.kingb);
@@ -286,18 +360,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if ((Math.abs(src_row - target_row) ==1 && Math.abs(src_col - target_col)==1) ||
                             (Math.abs(src_col - target_col)==1 && (src_row==target_row))||
                             (Math.abs(src_row - target_row)  == 1 && (src_col==target_col))) {
-                        next.setImageResource(R.drawable.kingw);
-                        next.setTag(Integer.valueOf(R.drawable.kingw));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
-                    } else {
+                        if (isPLayerOneTurn == true) {
+                            next.setImageResource(R.drawable.kingw);
+                            next.setTag(Integer.valueOf(R.drawable.kingw));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = false;
+                        }
+                        else {
+                            System.out.println("Sorry white");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.kingw);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.kingw));
+                        }
+                    }
+                    else {
                         buttons[src_row][src_col].setImageResource(R.drawable.kingw);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.kingw));
                         System.out.println("Select correct tile");
                     }
-
                     break;
 
                 case (R.drawable.nightw):
@@ -305,11 +389,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setTag(Integer.valueOf(R.drawable.nightw));
                     //If (|x1-x2|* |y1-y2|=2)
                     if (Math.abs(src_row - target_row) * Math.abs(src_col - target_col) == 2) {
-                        next.setImageResource(R.drawable.nightw);
-                        next.setTag(Integer.valueOf(R.drawable.nightw));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == true) {
+
+                            next.setImageResource(R.drawable.nightw);
+                            next.setTag(Integer.valueOf(R.drawable.nightw));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = false;
+                        }
+                        else {
+                            System.out.println("Sorry white");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.nightw);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.nightw));
+                        }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.nightw);
 
@@ -322,14 +418,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setImageResource(R.drawable.nightb);
                    // next.setTag(Integer.valueOf(R.drawable.nightb));
                     if (Math.abs(src_row - target_row) * Math.abs(src_col - target_col) == 2) {
-                    next.setImageResource(R.drawable.nightb);
-                    next.setTag(Integer.valueOf(R.drawable.nightb));
+                        if (isPLayerOneTurn == false) {
+                        next.setImageResource(R.drawable.nightb);
+                        next.setTag(Integer.valueOf(R.drawable.nightb));
                         selected.setImageDrawable(null);
                         selected.setTag(null);
                         selected = null;
+                        isPLayerOneTurn = true;
+                    }
+                    else {
+                        System.out.println("Sorry black");
+                        selected.setImageDrawable(null);
+                        selected.setTag(null);
+                        selected = null;
+                        buttons[src_row][src_col].setImageResource(R.drawable.nightb);
+                        buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.nightb));
+                    }
                 } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.nightb);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.nightb));
                     System.out.println("Select correct tile");
                 }
@@ -339,14 +445,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //next.setTag(Integer.valueOf(R.drawable.pawnw));
                     if ((Math.abs(src_row - target_row) ==1 && Math.abs(src_col - target_col)==1) ||
                             (Math.abs(src_row - target_row)  == 1 && (src_col==target_col))) {
-                        next.setImageResource(R.drawable.pawnw);
-                        next.setTag(Integer.valueOf(R.drawable.pawnw));
-                        selected.setImageDrawable(null);
-                        selected.setTag(null);
-                        selected = null;
+                        if (isPLayerOneTurn == true) {
+
+                            next.setImageResource(R.drawable.pawnw);
+                            next.setTag(Integer.valueOf(R.drawable.pawnw));
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            isPLayerOneTurn = false;
+                        }
+                        else {
+                            System.out.println("Sorry white");
+                            selected.setImageDrawable(null);
+                            selected.setTag(null);
+                            selected = null;
+                            buttons[src_row][src_col].setImageResource(R.drawable.pawnw);
+                            buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.pawnw));
+                        }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.pawnw);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.pawnw));
                         System.out.println("Select correct tile");
                     }
@@ -358,37 +475,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if ((Math.abs(src_row - target_row) ==1 && Math.abs(src_col - target_col)==1) ||
                             (Math.abs(src_col - target_col)==1 && (src_row==target_row))||
                             (Math.abs(src_row - target_row)  == 1 && (src_col==target_col))) {
+                        if (isPLayerOneTurn == false) {
+
                         next.setImageResource(R.drawable.pawnb);
                         next.setTag(Integer.valueOf(R.drawable.pawnb));
                         selected.setImageDrawable(null);
                         selected.setTag(null);
                         selected = null;
+                        isPLayerOneTurn = true;
+                    }
+                    else {
+                        System.out.println("Sorry black");
+                        selected.setImageDrawable(null);
+                        selected.setTag(null);
+                        selected = null;
+                        buttons[src_row][src_col].setImageResource(R.drawable.pawnb);
+                        buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.pawnb));
+                    }
                     } else {
                         buttons[src_row][src_col].setImageResource(R.drawable.pawnb);
-
                         buttons[src_row][src_col].setTag(Integer.valueOf(R.drawable.pawnb));
                         System.out.println("Select correct tile");
                     }
-
                     break;
-
-
             }
-
-            //selected.setImageDrawable(null);
-            //selected.setTag(null);
-            //selected = null;
         }
     }
 
-    /*public void checkTurn() {
-        for (int i = 0; i < 8; i++){
-            for (int j = 0; j < 8; j++){
-                if ((i+j) % 2 == 0)
-                    isPLayerOneTurn = true;
-                else
-                    isPLayerOneTurn = false;
-            }
-        }
+    /* void isBlack() {
+
+
+        int queenw = R.drawable.queenw;
+        int pawnw = R.drawable.pawnw;
+        int bishopw = R.drawable.bishopw;
+        int rookw = R.drawable.rookw;
+        int nightw = R.drawable.nightw;
+        if (buttons[target_row][target_col].getId()== queenw;)
+        {
+
     }*/
+
 }
