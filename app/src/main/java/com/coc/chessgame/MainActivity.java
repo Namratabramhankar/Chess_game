@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int target_col;
     boolean rook1 = true;
     boolean rook2 = true;
+    boolean bishop = true;
 
     private boolean isPLayerOneTurn = true;
     public int roundCount;
@@ -508,7 +509,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void isRook() {
 
 
-        int i = src_row;
+       /* int i = src_row;
         int j = src_col;
 
 
@@ -531,11 +532,105 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     rook2 = false;
                 }
 
+            }*/
+
+        int i = src_row;
+        int j = src_col;
+        if ((target_row - src_row) >0  && ( target_col == src_col ))
+        {
+            while ((i < target_row) && (rook1 == true))
+            {
+                if (buttons[i][target_col] == null) {
+                    rook1 = true;
+                    i++;
+                } else {
+                    rook1 = false;
+                }
+            }
+        }
+        else if ((target_row - src_row) <0  && ( target_col == src_col ))
+        {
+            while ((i > target_row) && (rook1 == true)) {
+
+                if (buttons[i][target_col] == null) {
+                    rook1 = true;
+                    i--;
+                } else {
+                    rook1 = false;
+                }
+
+            }
+        }
+
+        if ((target_col - src_col) >0  && ( target_row == src_row ))
+        {
+
+            while ((j < target_col) && (rook2 == true)) {
+                if (buttons[target_row][j] == null) {
+                    rook2 = true;
+                    j++;
+                } else {
+                    rook2 = false;
+                }
+
+            }
+        }
+        if ((target_col - src_col) <0  && ( target_row == src_row ))
+        {
+
+            while ((j > target_col) && (rook2 == true)) {
+                if (buttons[target_row][j] == null) {
+                    rook2 = true;
+                    j--;
+                } else {
+                    rook2 = false;
+                }
+            }
+        }
+    }
+
+    public void isBishop()
+    {
+
+        int i = src_row;
+        int j = src_col;
+        if((target_row - src_row) >0)
+        {
+            while ((i < target_row) &&  (bishop == true) &&  (j < target_col) )
+            {
+                if (buttons[i][j] == null) {
+                    bishop = true;
+                    i++;
+                    j++;
+
+                } else {
+                    bishop = false;
+                }
             }
 
+        }
+        else if ((target_row - src_row) <0)
+        {
+            while ((i > target_row) &&  (bishop == true) &&  (j > target_col) )
+                {
+                    if (buttons[i][j] == null) {
+                     bishop = true;
+                    i--;
+                    j--;
+
+            } else {
+                bishop = false;
+            }
+        }
+    }
 
     }
+
+
+
+
 }
+
 
 
 
