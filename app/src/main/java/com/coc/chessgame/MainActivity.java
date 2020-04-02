@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int src_col;
     int target_row;
     int target_col;
+    int try;
     boolean rook1 = true;
     boolean rook2 = true;
     boolean bishop = true;
